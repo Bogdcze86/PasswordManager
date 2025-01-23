@@ -17,20 +17,20 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+PasswordManager/PasswordManager/bin/[Dd]ebug/
+PasswordManager/PasswordManager/bin/[Dd]ebugPublic/
+PasswordManager/PasswordManager/bin/[Rr]elease/
+PasswordManager/PasswordManager/bin/[Rr]eleases/
+PasswordManager/PasswordManager/bin/x64/
+PasswordManager/PasswordManager/bin/x86/
+PasswordManager/PasswordManager/bin/[Ww][Ii][Nn]32/
+PasswordManager/PasswordManager/bin/[Aa][Rr][Mm]/
+PasswordManager/PasswordManager/bin/[Aa][Rr][Mm]64/
+PasswordManager/PasswordManager/bin/bld/
+PasswordManager/PasswordManager/[Bb]in/
+PasswordManager/PasswordManager/bin/[Oo]bj/
+PasswordManager/PasswordManager/bin/[Ll]og/
+PasswordManager/PasswordManager/bin/[Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
