@@ -1,0 +1,121 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\keymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\keymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\cryptohelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\cryptohelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|c:\\users\\vxc86\\desktop\\studia\\.magisterskie\\dotnet\\projekt\\passwordmanager\\passwordmanager\\passwordgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78AE5C8B-CAB1-480E-A943-C05D9C673080}|PasswordManager\\PasswordManager.csproj|solutionrelative:passwordmanager\\passwordgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "PasswordManager\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\MainWindow.xaml.cs",
+              "RelativeToolTip": "PasswordManager\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAhwJQAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:11:07.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "PasswordManager\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\MainWindow.xaml",
+              "RelativeToolTip": "PasswordManager\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-20T17:11:10.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CryptoHelper.cs",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\CryptoHelper.cs",
+              "RelativeDocumentMoniker": "PasswordManager\\CryptoHelper.cs",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\CryptoHelper.cs",
+              "RelativeToolTip": "PasswordManager\\CryptoHelper.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAhwCAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:18:38.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KeyManager.cs",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\KeyManager.cs",
+              "RelativeDocumentMoniker": "PasswordManager\\KeyManager.cs",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\KeyManager.cs",
+              "RelativeToolTip": "PasswordManager\\KeyManager.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAhwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:17:30.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiClient.cs",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\ApiClient.cs",
+              "RelativeDocumentMoniker": "PasswordManager\\ApiClient.cs",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\ApiClient.cs",
+              "RelativeToolTip": "PasswordManager\\ApiClient.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAhwBEAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:14:49.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PasswordGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\PasswordGenerator.cs",
+              "RelativeDocumentMoniker": "PasswordManager\\PasswordGenerator.cs",
+              "ToolTip": "C:\\Users\\vxc86\\Desktop\\Studia\\.Magisterskie\\DotNet\\Projekt\\PasswordManager\\PasswordManager\\PasswordGenerator.cs",
+              "RelativeToolTip": "PasswordManager\\PasswordGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-20T17:18:13.837Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

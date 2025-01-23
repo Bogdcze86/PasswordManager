@@ -27,6 +27,9 @@
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <Button Content="Generate Key" Click="GenerateKey_Click" Margin="5"/>
                 <Button Content="Decrypt Password" Click="DecryptPassword_Click" Margin="5"/>
+                <Button Content="Load Passwords" Click="LoadPasswords_Click" Margin="5" />
+                <TextBlock Text="Current Key ID:" Margin="0,5"/>
+                <TextBox x:Name="CurrentKeyIdTextBox" IsReadOnly="True" Margin="0,5"/>
             </StackPanel>
             <Button Content="Add Password" Click="AddPassword_Click" Margin="5" />
         </StackPanel>

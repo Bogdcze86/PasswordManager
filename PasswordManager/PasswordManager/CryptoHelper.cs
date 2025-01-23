@@ -48,9 +48,9 @@ namespace PasswordManager
 
             return sr.ReadToEnd();
         }
-        public static string EncryptWithRsa(string plainText, string publicKeyXml)
-        {
-            //TODO
-        }
+        //public static string EncryptWithRsa(string plainText, string publicKeyXml)
+        //{
+        //    //TODO
+        //}
     }
 }
