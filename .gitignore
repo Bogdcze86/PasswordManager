@@ -28,7 +28,7 @@ PasswordManager/PasswordManager/bin/[Aa][Rr][Mm]/
 PasswordManager/PasswordManager/bin/[Aa][Rr][Mm]64/
 PasswordManager/PasswordManager/bin/bld/
 PasswordManager/PasswordManager/[Bb]in/
-PasswordManager/PasswordManager/bin/[Oo]bj/
+PasswordManager/PasswordManager/[Oo]bj/
 PasswordManager/PasswordManager/bin/[Ll]og/
 PasswordManager/PasswordManager/bin/[Ll]ogs/
 
@@ -400,5 +400,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Backend
-PasswordManagerBackend/instance/
-PasswordManagerBackend/.venv
+PasswordManager/PasswordManagerBackend/.idea/.gitignore
+PasswordManager/PasswordManagerBackend/.idea/PasswordManagerBackend.iml
+PasswordManager/PasswordManagerBackend/.idea/misc.xml
+PasswordManager/PasswordManagerBackend/.venv/
+PasswordManager/PasswordManagerBackend/instance/
