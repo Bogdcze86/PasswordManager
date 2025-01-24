@@ -170,9 +170,33 @@ namespace PasswordManager
             MessageBox.Show($"Generated password: {PasswordBox.Password}");
         }
 
-        private void DecryptPassword_Click(object sender, RoutedEventArgs e)
+        private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (PasswordsList.SelectedItem != null)
+            {
+                // Pobierz zawartość wybranego elementu
+                string selectedItem = PasswordsList.SelectedItem.ToString();
+
+                // Podziel tekst na części za pomocą separatora "|"
+                string[] parts = selectedItem.Split('|');
+
+                if (parts.Length > 0)
+                {
+                    // Usuń białe znaki i wybierz ostatnią część
+                    string password = parts[^1].Trim();
+
+                    // Skopiuj wybrany fragment do schowka
+                    Clipboard.SetText(password);
+                }
+                else
+                {
+                    MessageBox.Show("Nie można znaleźć fragmentu tekstu.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano żadnego elementu!");
+            }
         }
     }
 }
