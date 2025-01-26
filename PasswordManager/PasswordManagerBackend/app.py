@@ -2,16 +2,16 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
-# Inicjalizacja aplikacji Flask
+# Flask app init
 app = Flask(__name__)
 CORS(app)
 
-# Konfiguracja bazy danych
+# Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///passwords.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Model bazy danych
+# Database model
 class Password(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     site = db.Column(db.String(50), nullable=False)
@@ -20,7 +20,7 @@ class Password(db.Model):
     key_id = db.Column(db.String(50), nullable=False)  # Identyfikator klucza AES
 
 
-# Endpoint: Dodawanie hasła
+# Endpoint: Add password
 @app.route('/password', methods=['POST'])
 def add_password():
     data = request.json
@@ -35,7 +35,7 @@ def add_password():
     return jsonify({'message': 'Password added!'})
 
 
-# Endpoint: Pobieranie wszystkich haseł
+# Endpoint: Retrieve all passwords
 @app.route('/passwords', methods=['GET'])
 def get_all_passwords():
     passwords = Password.query.all()
@@ -49,8 +49,8 @@ def get_all_passwords():
     } for p in passwords]
     return jsonify(result)
 
-# Tworzenie tabel w bazie danych
+# Creating database tables
 if __name__ == '__main__':
-    with app.app_context():  # Ustawienie kontekstu aplikacji
-        db.create_all()  # Tworzenie tabel w bazie danych
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
