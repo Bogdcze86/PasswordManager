@@ -17,7 +17,7 @@ namespace PasswordManager
             }
         }
 
-        public static string GenerateNewAesKey()
+        public static string GenerateAesKey()
         {
             using var aes = Aes.Create();
             aes.KeySize = 256;

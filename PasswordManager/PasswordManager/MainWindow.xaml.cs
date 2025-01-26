@@ -218,7 +218,7 @@ namespace PasswordManager
                 if (keyType == "AES")
                 {
                     // Generate a new AES key
-                    CurrentKeyId = KeyManager.GenerateNewAesKey();
+                    CurrentKeyId = KeyManager.GenerateAesKey();
                     MessageBox.Show($"New AES key generated with ID: {CurrentKeyId}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else if (keyType == "RSA")
