@@ -22,17 +22,23 @@
             </ComboBox>
             <Grid>
                 <TextBox x:Name="SiteTextBox" Margin="0,5"/>
-                <TextBlock x:Name="SiteTextPlaceholder" Text="Enter Site..." Margin="10,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+                <TextBlock x:Name="SiteTextPlaceholder" Text="Enter Site..." Margin="5,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
             </Grid>
             <Grid>
                 <TextBox x:Name="UsernameTextBox" Margin="0,5"/>
-                <TextBlock x:Name="UsernameTextPlaceholder" Text="Enter Username..." Margin="10,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+                <TextBlock x:Name="UsernameTextPlaceholder" Text="Enter Username..." Margin="5,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
             </Grid>
-            <PasswordBox x:Name="PasswordBox" Margin="0,5"/>
+            <Grid>
+                <PasswordBox x:Name="PasswordBox" Margin="0,5"/>
+                <TextBlock x:Name="PasswordPlaceholder" Text="Enter Password or Generate Below..." Margin="5,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
 
             <StackPanel Orientation="Vertical" Margin="0,5">
                 <TextBlock Text="Generate Password Options:" />
-                <TextBox x:Name="PasswordLengthTextBox" Text="Password length (e.g., 16)" Margin="0,5"/>
+                <Grid>
+                    <TextBox x:Name="PasswordLengthTextBox" Margin="0,5"/>
+                    <TextBlock x:Name="PasswordLengthPlaceholder" Text="Enter Password length (e.g., 16)" Margin="5,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+                </Grid>
                 <CheckBox x:Name="IncludeLowercaseCheckBox" Content="Include lowercase letters" IsChecked="True" Margin="0,5"/>
                 <CheckBox x:Name="IncludeUppercaseCheckBox" Content="Include uppercase letters" IsChecked="True" Margin="0,5"/>
                 <CheckBox x:Name="IncludeNumbersCheckBox" Content="Include numbers" IsChecked="True" Margin="0,5"/>

@@ -21,12 +21,22 @@ namespace PasswordManager
             FilterTextBox.TextChanged += FilterTextBox_TextChanged;
             FilterTextBox.GotFocus += FilterTextBox_GotFocus;
             FilterTextBox.LostFocus += FilterTextBox_LostFocus;
+
             UsernameTextBox.TextChanged += UsernameTextBox_TextChanged;
             UsernameTextBox.GotFocus += UsernameTextBox_GotFocus;
             UsernameTextBox.LostFocus += UsernameTextBox_LostFocus;
+
             SiteTextBox.TextChanged += SiteTextBox_TextChanged;
             SiteTextBox.GotFocus += SiteTextBox_GotFocus;
             SiteTextBox.LostFocus += SiteTextBox_LostFocus;
+
+            PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
+            PasswordBox.GotFocus += PasswordBox_GotFocus;
+            PasswordBox.LostFocus += PasswordBox_LostFocus;
+
+            PasswordLengthTextBox.TextChanged += PasswordLengthTextBox_TextChanged;
+            PasswordLengthTextBox.GotFocus += PasswordLengthTextBox_GotFocus;
+            PasswordLengthTextBox.LostFocus += PasswordLengthTextBox_LostFocus;
 
             // Set initial placeholder visibility
             UpdatePlaceholderVisibility();
@@ -77,11 +87,43 @@ namespace PasswordManager
             UpdatePlaceholderVisibility();
         }
 
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void PasswordBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void PasswordLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void PasswordLengthTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void PasswordLengthTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
         private void UpdatePlaceholderVisibility()
         {
             FilterPlaceholder.Visibility = string.IsNullOrEmpty(FilterTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
             SiteTextPlaceholder.Visibility = string.IsNullOrEmpty(SiteTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
             UsernameTextPlaceholder.Visibility = string.IsNullOrEmpty(UsernameTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+            PasswordPlaceholder.Visibility = string.IsNullOrEmpty(PasswordBox.Password) ? Visibility.Visible : Visibility.Collapsed;
+            PasswordLengthPlaceholder.Visibility = string.IsNullOrEmpty(PasswordLengthTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
         #endregion Placeholder logic
 
