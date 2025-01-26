@@ -10,14 +10,13 @@ namespace PasswordManager
 
         static KeyManager()
         {
-            // Tworzymy folder "keys", jeśli jeszcze nie istnieje
+            // Create "keys" folder if it doesn't exist
             if (!Directory.Exists(KeysDirectory))
             {
                 Directory.CreateDirectory(KeysDirectory);
             }
         }
 
-        // Funkcja generowania nowego klucza AES i zapisywania w folderze "keys"
         public static string GenerateNewAesKey()
         {
             using var aes = Aes.Create();
@@ -32,7 +31,6 @@ namespace PasswordManager
             return keyId;
         }
 
-        // Funkcja ładowania klucza AES na podstawie key_id
         public static byte[] LoadAesKey(string keyId)
         {
             string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");

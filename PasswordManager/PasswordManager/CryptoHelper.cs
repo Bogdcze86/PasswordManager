@@ -7,7 +7,7 @@ namespace PasswordManager
 {
     public static class CryptoHelper
     {
-        public static byte[] Encrypt(string plainText, byte[] key)
+        public static byte[] EncryptWithAes(string plainText, byte[] key)
         {
             using var aes = Aes.Create();
             aes.Key = key;
@@ -29,7 +29,7 @@ namespace PasswordManager
             return result;
         }
 
-        public static string Decrypt(byte[] encryptedData, byte[] key)
+        public static string DecryptWithAes(byte[] encryptedData, byte[] key)
         {
             using var aes = Aes.Create();
             aes.Key = key;

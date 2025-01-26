@@ -32,6 +32,7 @@ namespace PasswordManager
             UpdatePlaceholderVisibility();
         }
 
+        #region Placeholder logic
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdatePlaceholderVisibility();
@@ -82,6 +83,7 @@ namespace PasswordManager
             SiteTextPlaceholder.Visibility = string.IsNullOrEmpty(SiteTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
             UsernameTextPlaceholder.Visibility = string.IsNullOrEmpty(UsernameTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
+        #endregion Placeholder logic
 
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
@@ -133,7 +135,7 @@ namespace PasswordManager
                         else if (passwordEntry.KeyId.StartsWith("AES_")) // Check if it's an AES key
                         {
                             byte[] aesKey = KeyManager.LoadAesKey(passwordEntry.KeyId);
-                            decryptedPassword = CryptoHelper.Decrypt(Convert.FromBase64String(passwordEntry.Password), aesKey);
+                            decryptedPassword = CryptoHelper.DecryptWithAes(Convert.FromBase64String(passwordEntry.Password), aesKey);
                         }
                         else
                         {
@@ -179,11 +181,12 @@ namespace PasswordManager
 
             try
             {
+                // Encrypt password string according to chosen encryption method
                 string encryptedPassword;
                 if (keyType == "AES")
                 {
                     byte[] aesKey = KeyManager.LoadAesKey(CurrentKeyId);
-                    encryptedPassword = Convert.ToBase64String(CryptoHelper.Encrypt(plainPassword, aesKey));
+                    encryptedPassword = Convert.ToBase64String(CryptoHelper.EncryptWithAes(plainPassword, aesKey));
                 }
                 else if (keyType == "RSA")
                 {
@@ -204,7 +207,7 @@ namespace PasswordManager
             }
         }
 
-        private string CurrentKeyId; // Przechowuje identyfikator bieżącego klucza
+        private string CurrentKeyId;
 
         private void GenerateKey_Click(object sender, RoutedEventArgs e)
         {
@@ -239,7 +242,6 @@ namespace PasswordManager
             }
         }
 
-
         private void GeneratePassword_Click(object sender, RoutedEventArgs e)
         {
             int.TryParse(PasswordLengthTextBox.Text, out int length);
@@ -264,28 +266,27 @@ namespace PasswordManager
         {
             if (PasswordsList.SelectedItem != null)
             {
-                // Pobierz zawartość wybranego elementu
+                // Get item from password box
                 string selectedItem = PasswordsList.SelectedItem.ToString();
 
-                // Podziel tekst na części za pomocą separatora "|"
+                // Divide to new strings that are seperated with '|'
                 string[] parts = selectedItem.Split('|');
 
                 if (parts.Length > 0)
                 {
-                    // Usuń białe znaki i wybierz ostatnią część
+                    // Delete any white spaces (spaces, tabs) from the last string which contains the password
                     string password = parts[^1].Trim();
 
-                    // Skopiuj wybrany fragment do schowka
                     Clipboard.SetText(password);
                 }
                 else
                 {
-                    MessageBox.Show("Nie można znaleźć fragmentu tekstu.");
+                    MessageBox.Show("Couldn't find any text fragment.");
                 }
             }
             else
             {
-                MessageBox.Show("Nie wybrano żadnego elementu!");
+                MessageBox.Show("No element chosen.");
             }
         }
 
