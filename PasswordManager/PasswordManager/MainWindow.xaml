@@ -20,8 +20,14 @@
                 <ComboBoxItem Content="AES" />
                 <ComboBoxItem Content="RSA" />
             </ComboBox>
-            <TextBox x:Name="SiteTextBox" Text="Enter site" Margin="0,5"/>
-            <TextBox x:Name="UsernameTextBox" Text="Enter username" Margin="0,5"/>
+            <Grid>
+                <TextBox x:Name="SiteTextBox" Margin="0,5"/>
+                <TextBlock x:Name="SiteTextPlaceholder" Text="Enter Site..." Margin="10,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+            <Grid>
+                <TextBox x:Name="UsernameTextBox" Margin="0,5"/>
+                <TextBlock x:Name="UsernameTextPlaceholder" Text="Enter Username..." Margin="10,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
             <PasswordBox x:Name="PasswordBox" Margin="0,5"/>
 
             <StackPanel Orientation="Vertical" Margin="0,5">
