@@ -17,7 +17,7 @@ class Password(db.Model):
     site = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.Text, nullable=False)
-    key_id = db.Column(db.String(50), nullable=False)  # Identyfikator klucza AES
+    key_id = db.Column(db.String(50), nullable=False)
 
 
 # Endpoint: Add password
@@ -27,8 +27,8 @@ def add_password():
     new_password = Password(
         site=data['site'],
         username=data['username'],
-        password=data['password'],  # Zaszyfrowane hasło
-        key_id=data['key_id']  # Identyfikator klucza
+        password=data['password'],  # Encrypted password
+        key_id=data['key_id']  # Encryption key id
     )
     db.session.add(new_password)
     db.session.commit()
