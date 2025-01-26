@@ -1,14 +1,15 @@
 ﻿<Window x:Class="PasswordManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Password Manager" Height="550" Width="789">
-    
+        Title="Password Manager" Height="633" Width="688">
+
+    <!--Adds an ability to right click the password entry and copy it to clipboard-->
     <Window.Resources>
         <ContextMenu x:Key="ItemContextMenu">
-            <MenuItem Header="Kopiuj" Click="Copy_Click"/>
+            <MenuItem Header="Copy" Click="Copy_Click"/>
         </ContextMenu>
     </Window.Resources>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,6 +23,7 @@
             <TextBox x:Name="SiteTextBox" Text="Enter site" Margin="0,5"/>
             <TextBox x:Name="UsernameTextBox" Text="Enter username" Margin="0,5"/>
             <PasswordBox x:Name="PasswordBox" Margin="0,5"/>
+
             <StackPanel Orientation="Vertical" Margin="0,5">
                 <TextBlock Text="Generate Password Options:" />
                 <TextBox x:Name="PasswordLengthTextBox" Text="Password length (e.g., 16)" Margin="0,5"/>
@@ -33,11 +35,25 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <Button Content="Generate Key" Click="GenerateKey_Click" Margin="5"/>
+                <Button Content="Load Key" Click="LoadKey_Click" Margin="5" />
                 <Button Content="Load Passwords" Click="LoadPasswords_Click" Margin="5" />
                 <TextBlock Text="Current Key ID:" Margin="0,5"/>
                 <TextBox x:Name="CurrentKeyIdTextBox" IsReadOnly="True" Margin="0,5"/>
             </StackPanel>
             <Button Content="Add Password" Click="AddPassword_Click" Margin="5" />
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <ComboBox x:Name="SortComboBox" Width="150" Margin="5" SelectedIndex="0">
+                    <ComboBoxItem Content="Sort by Site (A-Z)" />
+                    <ComboBoxItem Content="Sort by Site (Z-A)" />
+                    <ComboBoxItem Content="Sort by Username (A-Z)" />
+                    <ComboBoxItem Content="Sort by Username (Z-A)" />
+                </ComboBox>
+                <Grid>
+                    <TextBox x:Name="FilterTextBox" Width="200" Margin="5" />
+                    <TextBlock x:Name="FilterPlaceholder" Text="Filter by site or username" Margin="10,5,5,5" Foreground="Gray" IsHitTestVisible="False" />
+                </Grid>
+                <Button Content="Apply Filter" Click="ApplyFilter_Click" Margin="5" />
+            </StackPanel>
         </StackPanel>
         <ListBox x:Name="PasswordsList" Grid.Row="1" >
             <ListBox.ItemContainerStyle>

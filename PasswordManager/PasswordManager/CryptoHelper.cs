@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace PasswordManager
 {
@@ -48,9 +49,23 @@ namespace PasswordManager
 
             return sr.ReadToEnd();
         }
-        //public static string EncryptWithRsa(string plainText, string publicKeyXml)
-        //{
-        //    //TODO
-        //}
+
+        public static string EncryptWithRsa(string plainText, byte[] publicKey)
+        {
+            using var rsa = RSA.Create();
+            rsa.ImportRSAPublicKey(publicKey, out _);
+
+            byte[] encryptedData = rsa.Encrypt(Encoding.UTF8.GetBytes(plainText), RSAEncryptionPadding.OaepSHA256);
+            return Convert.ToBase64String(encryptedData);
+        }
+
+        public static string DecryptWithRsa(string encryptedText, byte[] privateKey)
+        {
+            using var rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+
+            byte[] decryptedData = rsa.Decrypt(Convert.FromBase64String(encryptedText), RSAEncryptionPadding.OaepSHA256);
+            return Encoding.UTF8.GetString(decryptedData);
+        }
     }
 }

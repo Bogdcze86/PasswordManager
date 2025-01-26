@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,6 +16,39 @@ namespace PasswordManager
             InitializeComponent();
             apiClient = new ApiClient();
             CurrentKeyId = null;
+
+            // Initialize placeholder logic
+            FilterTextBox.TextChanged += FilterTextBox_TextChanged;
+            FilterTextBox.GotFocus += FilterTextBox_GotFocus;
+            FilterTextBox.LostFocus += FilterTextBox_LostFocus;
+
+            // Set initial placeholder visibility
+            UpdatePlaceholderVisibility();
+        }
+
+        private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void FilterTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePlaceholderVisibility();
+        }
+
+        private void UpdatePlaceholderVisibility()
+        {
+            FilterPlaceholder.Visibility = string.IsNullOrEmpty(FilterTextBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ApplyFilter_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPasswords_Click(sender, e);
         }
 
         private async void LoadPasswords_Click(object sender, RoutedEventArgs e)
@@ -23,17 +58,51 @@ namespace PasswordManager
                 var passwords = await apiClient.GetPasswordsAsync();
                 PasswordsList.Items.Clear();
 
-                foreach (var passwordEntry in passwords)
+                // Apply filtering
+                string filterText = FilterTextBox.Text.ToLower();
+                var filteredPasswords = passwords
+                    .Where(p => p.Site.ToLower().Contains(filterText) || p.Username.ToLower().Contains(filterText))
+                    .ToList();
+
+                // Apply sorting
+                var sortOption = (SortComboBox.SelectedItem as ComboBoxItem).Content.ToString();
+                switch (sortOption)
+                {
+                    case "Sort by Site (A-Z)":
+                        filteredPasswords = filteredPasswords.OrderBy(p => p.Site).ToList();
+                        break;
+                    case "Sort by Site (Z-A)":
+                        filteredPasswords = filteredPasswords.OrderByDescending(p => p.Site).ToList();
+                        break;
+                    case "Sort by Username (A-Z)":
+                        filteredPasswords = filteredPasswords.OrderBy(p => p.Username).ToList();
+                        break;
+                    case "Sort by Username (Z-A)":
+                        filteredPasswords = filteredPasswords.OrderByDescending(p => p.Username).ToList();
+                        break;
+                }
+
+                // Display the sorted and filtered passwords
+                foreach (var passwordEntry in filteredPasswords)
                 {
                     try
                     {
-                        // Ładujemy klucz AES na podstawie key_id
-                        byte[] aesKey = KeyManager.LoadAesKey(passwordEntry.KeyId);
+                        string decryptedPassword;
+                        if (passwordEntry.KeyId.StartsWith("RSA_")) // Check if it's an RSA key
+                        {
+                            byte[] privateKey = KeyManager.LoadRsaPrivateKey(passwordEntry.KeyId);
+                            decryptedPassword = CryptoHelper.DecryptWithRsa(passwordEntry.Password, privateKey);
+                        }
+                        else if (passwordEntry.KeyId.StartsWith("AES_")) // Check if it's an AES key
+                        {
+                            byte[] aesKey = KeyManager.LoadAesKey(passwordEntry.KeyId);
+                            decryptedPassword = CryptoHelper.Decrypt(Convert.FromBase64String(passwordEntry.Password), aesKey);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException($"Unsupported key type for key ID: {passwordEntry.KeyId}");
+                        }
 
-                        // Odszyfrowujemy hasło
-                        string decryptedPassword = CryptoHelper.Decrypt(Convert.FromBase64String(passwordEntry.Password), aesKey);
-
-                        // Dodajemy dane do listy
                         PasswordsList.Items.Add($"{passwordEntry.Site} | {passwordEntry.Username} | {decryptedPassword}");
                     }
                     catch (FileNotFoundException)
@@ -57,6 +126,7 @@ namespace PasswordManager
             string site = SiteTextBox.Text;
             string username = UsernameTextBox.Text;
             string plainPassword = PasswordBox.Password;
+            string keyType = (KeyTypeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
 
             if (string.IsNullOrWhiteSpace(site) || string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(plainPassword))
             {
@@ -66,19 +136,28 @@ namespace PasswordManager
 
             if (string.IsNullOrEmpty(CurrentKeyId))
             {
-                MessageBox.Show("Please generate an AES key first.");
+                MessageBox.Show("Please generate a key first.");
                 return;
             }
 
             try
             {
-                // Ładujemy klucz AES na podstawie bieżącego identyfikatora
-                byte[] aesKey = KeyManager.LoadAesKey(CurrentKeyId);
+                string encryptedPassword;
+                if (keyType == "AES")
+                {
+                    byte[] aesKey = KeyManager.LoadAesKey(CurrentKeyId);
+                    encryptedPassword = Convert.ToBase64String(CryptoHelper.Encrypt(plainPassword, aesKey));
+                }
+                else if (keyType == "RSA")
+                {
+                    byte[] publicKey = KeyManager.LoadRsaPublicKey(CurrentKeyId);
+                    encryptedPassword = CryptoHelper.EncryptWithRsa(plainPassword, publicKey);
+                }
+                else
+                {
+                    throw new NotSupportedException("Invalid key type");
+                }
 
-                // Szyfrujemy hasło
-                string encryptedPassword = Convert.ToBase64String(CryptoHelper.Encrypt(plainPassword, aesKey));
-
-                // Wysyłamy zaszyfrowane dane i key_id do backendu
                 string result = await apiClient.AddPassword(site, username, encryptedPassword, CurrentKeyId);
                 MessageBox.Show(result);
             }
@@ -88,65 +167,39 @@ namespace PasswordManager
             }
         }
 
-
-        //private async void AddPassword_Click(object sender, RoutedEventArgs e)
-        //{
-        //    string site = SiteTextBox.Text;
-        //    string username = UsernameTextBox.Text;
-        //    string plainPassword = PasswordBox.Password;
-        //    string keyType = (KeyTypeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
-
-        //    string keyFilePath = keyType == "AES" ? "aes_key.bin" : "rsa_public_key.xml";
-        //    // Wczytaj klucz AES z lokalnego systemu
-        //    if (!File.Exists(keyFilePath))
-        //    {
-        //        MessageBox.Show("AES key not found. Please generate a key first.");
-        //        return;
-        //    }
-
-        //    byte[] aesKey = KeyManager.LoadAesKey(keyFilePath);
-
-        //    // Wygeneruj unikalne ID klucza
-        //    string keyId = Guid.NewGuid().ToString();
-        //    File.WriteAllText($"keys/{keyId}.bin", Convert.ToBase64String(aesKey)); // Zapisz klucz lokalnie
-
-        //    string encryptedPassword = keyType switch
-        //    {
-        //        "AES" => Convert.ToBase64String(CryptoHelper.Encrypt(plainPassword, aesKey)),
-        //        //"RSA" => CryptoHelper.EncryptWithRsa(plainPassword, File.ReadAllText(keyFilePath)),
-        //        _ => throw new NotSupportedException("Invalid key type")
-        //    };
-
-        //    // Wyślij zaszyfrowane dane i key_id do backendu
-        //    string result = await apiClient.AddPassword(site, username, encryptedPassword, keyId);
-        //    MessageBox.Show(result);
-        //}
-
-        private string CurrentKeyId; // Przechowuje identyfikator bieżącego klucza AES
+        private string CurrentKeyId; // Przechowuje identyfikator bieżącego klucza
 
         private void GenerateKey_Click(object sender, RoutedEventArgs e)
         {
             string keyType = (KeyTypeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
-            string keyFilePath = keyType == "AES" ? "aes_key.bin" : "rsa_key_pair.xml";
-            if (keyType == "AES")
+
+            try
             {
-                try
+                if (keyType == "AES")
                 {
-                    // Generujemy nowy klucz AES i zapisujemy go w folderze "keys/"
+                    // Generate a new AES key
                     CurrentKeyId = KeyManager.GenerateNewAesKey();
-                    //MessageBox.Show($"New AES key generated with ID: {CurrentKeyId}");
-                    CurrentKeyIdTextBox.Text = CurrentKeyId;
+                    MessageBox.Show($"New AES key generated with ID: {CurrentKeyId}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                catch (Exception ex)
+                else if (keyType == "RSA")
                 {
-                    MessageBox.Show($"Error generating key: {ex.Message}");
+                    // Generate a new RSA key pair
+                    CurrentKeyId = KeyManager.GenerateRsaKeys();
+                    MessageBox.Show($"New RSA key pair generated with ID: {CurrentKeyId}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else
+                {
+                    MessageBox.Show("Invalid key type selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Update the UI with the current key ID
+                CurrentKeyIdTextBox.Text = CurrentKeyId;
             }
-            else if (keyType == "RSA")
+            catch (Exception ex)
             {
-                CurrentKeyId = KeyManager.GenerateRsaKeys();
+                MessageBox.Show($"Error generating key: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"{keyType} key saved to {keyFilePath} \nKey ID: {CurrentKeyId}");
         }
 
 
@@ -196,6 +249,67 @@ namespace PasswordManager
             else
             {
                 MessageBox.Show("Nie wybrano żadnego elementu!");
+            }
+        }
+
+        private void LoadKey_Click(object sender, RoutedEventArgs e)
+        {
+            string keyType = (KeyTypeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
+
+            // Create OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = $"Select {keyType} Key File",
+                Filter = keyType == "AES"
+                    ? "Binary Files (*.bin)|*.bin|All Files (*.*)|*.*"
+                    : "PEM Files (*.pem)|*.pem|All Files (*.*)|*.*"
+            };
+
+            // Show OpenFileDialog and check if user selected a file
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    if (keyType == "AES")
+                    {
+                        // Read the AES key file
+                        byte[] aesKey = File.ReadAllBytes(filePath);
+
+                        // Handle the loaded AES key (e.g., store it in memory)
+                        CurrentKeyId = Path.GetFileNameWithoutExtension(filePath);
+                        CurrentKeyIdTextBox.Text = CurrentKeyId;
+                        MessageBox.Show("AES Key loaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (keyType == "RSA")
+                    {
+                        // Read the RSA key file
+                        byte[] rsaKey = File.ReadAllBytes(filePath);
+
+                        // Extract the key ID from the file name (assuming the file name is in the format "RSA_{keyId}_public.pem" or "RSA_{keyId}_private.pem")
+                        string fileName = Path.GetFileNameWithoutExtension(filePath);
+                        if (fileName.EndsWith("_public") || fileName.EndsWith("_private"))
+                        {
+                            CurrentKeyId = fileName.Substring(0, fileName.LastIndexOf('_')); // Extract the key ID without the suffix
+                        }
+                        else
+                        {
+                            CurrentKeyId = fileName; // Fallback if the file name doesn't follow the expected format
+                        }
+
+                        CurrentKeyIdTextBox.Text = CurrentKeyId;
+                        MessageBox.Show("RSA Key loaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid key type selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading {keyType} Key: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

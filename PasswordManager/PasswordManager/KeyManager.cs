@@ -2,87 +2,91 @@
 using System.IO;
 using System.Security.Cryptography;
 
-public static class KeyManager
+namespace PasswordManager
 {
-    private static readonly string KeysDirectory = "keys";
-
-    static KeyManager()
+    public static class KeyManager
     {
-        // Tworzymy folder "keys", jeśli jeszcze nie istnieje
-        if (!Directory.Exists(KeysDirectory))
+        private static readonly string KeysDirectory = "keys";
+
+        static KeyManager()
         {
-            Directory.CreateDirectory(KeysDirectory);
-        }
-    }
-
-    // Funkcja generowania nowego klucza AES i zapisywania w folderze "keys"
-    public static string GenerateNewAesKey()
-    {
-        using var aes = Aes.Create();
-        aes.KeySize = 256;
-        aes.GenerateKey();
-
-        // Generujemy unikalny identyfikator dla klucza
-        string keyId = Guid.NewGuid().ToString();
-        string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
-
-        // Zapisujemy klucz w pliku
-        File.WriteAllBytes(keyPath, aes.Key);
-
-        return keyId; // Zwracamy identyfikator klucza
-    }
-
-    // Funkcja ładowania klucza AES na podstawie key_id
-    public static byte[] LoadAesKey(string keyId)
-    {
-        string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
-
-        if (!File.Exists(keyPath))
-        {
-            throw new FileNotFoundException($"Key with ID {keyId} not found.");
+            // Tworzymy folder "keys", jeśli jeszcze nie istnieje
+            if (!Directory.Exists(KeysDirectory))
+            {
+                Directory.CreateDirectory(KeysDirectory);
+            }
         }
 
-        return File.ReadAllBytes(keyPath);
-    }
+        // Funkcja generowania nowego klucza AES i zapisywania w folderze "keys"
+        public static string GenerateNewAesKey()
+        {
+            using var aes = Aes.Create();
+            aes.KeySize = 256;
+            aes.GenerateKey();
 
-    public static string GenerateRsaKeys()
-    {
-        string keyId = Guid.NewGuid().ToString();
-        string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
-        return keyId;
-        //TODO
-        /*Rozwiń tę metodę by dodawać również klucze RSA i dodaj analogicznie jak AES ładowanie:
-KeyManager.cs:
-public static string GenerateRsaKeys()
-{
-    string keyId = Guid.NewGuid().ToString();
-    string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
-    return keyId;
-}
-MainWindow.xaml.cs:
-private void GenerateKey_Click(object sender, RoutedEventArgs e)
-{
-    string keyType = (KeyTypeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
-    string keyFilePath = keyType == "AES" ? "aes_key.bin" : "rsa_key_pair.xml";
-    if (keyType == "AES")
-    {
-        try
-        {
-            // Generujemy nowy klucz AES i zapisujemy go w folderze "keys/"
-            CurrentKeyId = KeyManager.GenerateNewAesKey();
-            //MessageBox.Show($"New AES key generated with ID: {CurrentKeyId}");
-            CurrentKeyIdTextBox.Text = CurrentKeyId;
+            string keyId = $"AES_{Guid.NewGuid()}"; // Add AES prefix
+            string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
+
+            File.WriteAllBytes(keyPath, aes.Key);
+
+            return keyId;
         }
-        catch (Exception ex)
+
+        // Funkcja ładowania klucza AES na podstawie key_id
+        public static byte[] LoadAesKey(string keyId)
         {
-            MessageBox.Show($"Error generating key: {ex.Message}");
+            string keyPath = Path.Combine(KeysDirectory, $"{keyId}.bin");
+
+            if (!File.Exists(keyPath))
+            {
+                throw new FileNotFoundException($"Key with ID {keyId} not found.");
+            }
+
+            return File.ReadAllBytes(keyPath);
         }
-    }
-    else if (keyType == "RSA")
-    {
-        CurrentKeyId = KeyManager.GenerateRsaKeys();
-    }
-    MessageBox.Show($"{keyType} key saved to {keyFilePath} \nKey ID: {CurrentKeyId}");
-}*/
+
+        public static string GenerateRsaKeys()
+        {
+            using var rsa = RSA.Create();
+            rsa.KeySize = 2048;
+
+            string keyId = $"RSA_{Guid.NewGuid()}"; // Add RSA prefix
+            string privateKeyPath = Path.Combine(KeysDirectory, $"{keyId}_private.pem");
+            string publicKeyPath = Path.Combine(KeysDirectory, $"{keyId}_public.pem");
+
+            // Export the private key
+            var privateKey = rsa.ExportRSAPrivateKey();
+            File.WriteAllBytes(privateKeyPath, privateKey);
+
+            // Export the public key
+            var publicKey = rsa.ExportRSAPublicKey();
+            File.WriteAllBytes(publicKeyPath, publicKey);
+
+            return keyId;
+        }
+
+        public static byte[] LoadRsaPublicKey(string keyId)
+        {
+            string publicKeyPath = Path.Combine(KeysDirectory, $"{keyId}_public.pem");
+
+            if (!File.Exists(publicKeyPath))
+            {
+                throw new FileNotFoundException($"Public key with ID {keyId} not found.");
+            }
+
+            return File.ReadAllBytes(publicKeyPath);
+        }
+
+        public static byte[] LoadRsaPrivateKey(string keyId)
+        {
+            string privateKeyPath = Path.Combine(KeysDirectory, $"{keyId}_private.pem");
+
+            if (!File.Exists(privateKeyPath))
+            {
+                throw new FileNotFoundException($"Private key with ID {keyId} not found.");
+            }
+
+            return File.ReadAllBytes(privateKeyPath);
+        }
     }
 }
