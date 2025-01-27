@@ -7,7 +7,7 @@ Encryption keys (the project uses RSA and AES) are stored locally.
 
 ## Launching the project
 - Clone the repository or download the project as a .zip file and extract.  
-- Backend (if using Pycharm) - add .venv and activate it  
+- Backend (if using Pycharm) - add .venv, activate it (or use an existing interpreter) and download modules: Flask, Flask_sqlalchemy, Flask_CORS  
 - Frontend (solution in Visual Studio) should build without any issues  
   
 Backend, when launched, creates a database in the <b>/instance</b> folder called <b>passwords.db</b>.  
